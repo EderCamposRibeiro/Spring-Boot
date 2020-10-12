@@ -21,9 +21,14 @@ public class PersonController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/saveperson")
-	public String save(Person person) {
+	public ModelAndView save(Person person) {
 		personRepository.save(person);
-		return "register/personregister";
+		
+		ModelAndView andView = new ModelAndView("register/personregister");
+		Iterable<Person> personsIt = personRepository.findAll();
+		andView.addObject("persons", personsIt);
+		
+		return andView;
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/personslist")
