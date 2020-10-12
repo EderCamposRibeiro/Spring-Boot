@@ -1,4 +1,4 @@
-package springboot.model;
+package project.springboot.model;
 
 import java.io.Serializable;
 
@@ -19,6 +19,16 @@ public class Person implements Serializable{
 	private String name;
 	
 	private String surname;
+	
+	private int age;
+	
+	public void setAge(int age) {
+		this.age = age;
+	}
+	
+	public int getAge() {
+		return age;
+	}
 
 	public Long getId() {
 		return id;
