@@ -4,21 +4,21 @@
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<link type="text/css" rel="stylesheet" href="materialize/css/materialize.css"  media="screen,projection"/>
-<link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css"  media="screen,projection"/>
+<link type="text/css" rel="stylesheet" href="/materialize/css/materialize.css"  media="screen,projection"/>
+<link type="text/css" rel="stylesheet" href="/materialize/css/materialize.min.css"  media="screen,projection"/>
 
 </head>
 <body>
-	<form action="saveperson" method="post">
+	<form action="saveperson" method="post" th:object="${personobj}">
+		<label>Id:</label>
+		<input name="id" th:field="*{id}" readonly="readonly">
 		<label>Name:</label>
-		<input name="name">
+		<input name="name" th:field="*{name}">
 		<label>Surname:</label>
-		<input name="surname">
+		<input name="surname" th:field="*{surname}">
 		<label>Age:</label>
-		<input name="age">
-		<button class="btn waves-effect waves-light" type="submit" name="Save">Save
-    		<i class="material-icons right">send</i>
-  		</button>
+		<input name="age" th:field="*{age}">
+		<input class="waves-effect waves-light btn" type="submit" value="Save">
 	</form>
 	
 	<a href="personslist">Person's List</a>
@@ -29,10 +29,11 @@
 			<td th:text = "${person.name}"></td>
 			<td th:text = "${person.surname}"></td>
 			<td th:text = "${person.age}"></td>
+			<td><a th:href="@{/editperson/{idperson}(idperson=${person.id})}">Edit</a></td>
 		</tr>	
 	</table>
 	
-<script type="text/javascript" src="materialize/js/materialize.js"></script>	
-<script type="text/javascript" src="materialize/js/materialize.min.js"></script>	
+<script type="text/javascript" src="/materialize/js/materialize.js"></script>	
+<script type="text/javascript" src="/materialize/js/materialize.min.js"></script>	
 </body>
 </html>
