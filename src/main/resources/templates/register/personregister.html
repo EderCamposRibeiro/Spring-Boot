@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link type="text/css" rel="stylesheet" href="/materialize/css/materialize.css"  media="screen,projection"/>
@@ -21,8 +21,20 @@
 		<input class="waves-effect waves-light btn" type="submit" value="Save">
 	</form>
 	
+	<br/>
+	<br/>
 	<a href="personslist">Person's List</a>
+	<br/>
+	<br/>	
 	
+	<form action="findperson" method="post">
+		<label>Find By Name:</label>	
+		<input name="findname">
+		<input class="waves-effect waves-light btn" type="submit" value="Find">
+	</form>
+	
+	<br/>
+	<br/>	
 	<table>
 		<tr th:each = "person : ${persons}">
 			<td th:text = "${person.id}"></td>
