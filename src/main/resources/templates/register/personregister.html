@@ -30,6 +30,7 @@
 			<td th:text = "${person.surname}"></td>
 			<td th:text = "${person.age}"></td>
 			<td><a th:href="@{/editperson/{idperson}(idperson=${person.id})}">Edit</a></td>
+			<td><a th:href="@{/deleteperson/{idperson}(idperson=${person.id})}">Delete</a></td>
 		</tr>	
 	</table>
 	

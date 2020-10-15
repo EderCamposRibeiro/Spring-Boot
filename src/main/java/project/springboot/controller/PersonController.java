@@ -56,5 +56,16 @@ public class PersonController {
 		return andView;
 	}
 	
+	@GetMapping("/deleteperson/{idperson}")
+	public ModelAndView delete(@PathVariable("idperson") Long idperson) {
+
+		personRepository.deleteById(idperson);
+		
+		ModelAndView andView = new ModelAndView("register/personregister");
+		andView.addObject("persons", personRepository.findAll());
+		andView.addObject("personobj", new Person());
+		return andView;
+	}	
+	
 
 }
