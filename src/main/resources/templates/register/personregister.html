@@ -7,35 +7,82 @@
 <link type="text/css" rel="stylesheet" href="/materialize/css/materialize.css"  media="screen,projection"/>
 <link type="text/css" rel="stylesheet" href="/materialize/css/materialize.min.css"  media="screen,projection"/>
 
+<style type="text/css">
+table.striped>tbody>tr:nth-child(odd){
+	background-color: rgba(158, 158, 154, 0.5)
+}
+form input[type=submit]{
+	color: white;
+}
+
+</style>
+
 </head>
 <body>
-	<form action="saveperson" method="post" th:object="${personobj}">
-		<label>Id:</label>
-		<input name="id" th:field="*{id}" readonly="readonly">
-		<label>Name:</label>
-		<input name="name" th:field="*{name}">
-		<label>Surname:</label>
-		<input name="surname" th:field="*{surname}">
-		<label>Age:</label>
-		<input name="age" th:field="*{age}">
-		<input class="waves-effect waves-light btn" type="submit" value="Save">
+<h3>Spring Boot + Thymeleaf + Material Design Lite</h3> <br/>
+<h5>Person's Register:</h5>
+	<div class="row">
+	<form action="saveperson" id="formperson" method="post" th:object="${personobj}" class="col s12">
+		<div class="row">
+			<div class="input-fiel col s6">
+				<label for="id" class="active">Id:</label>
+				<input name="id" th:field="*{id}" readonly="readonly" id="id">
+			</div>
+			<div class="input-fiel col s6">	
+				<label for="name" class="active">Name:</label>
+				<input name="name" th:field="*{name}" id="name" class="validate">
+			</div>	
+		</div>
+		<div class="row">
+			<div class="input-fiel col s12">		
+				<label for="surname" class="active">Surname:</label>
+				<input name="surname" th:field="*{surname}" id="surname" class="validate">
+			</div>
+		</div>	
+		<div class="row">
+			<div class="input-fiel col s12">	
+				<label for="age" class="active">Age:</label>
+				<input name="age" th:field="*{age}" id="age" class="validate">
+			</div>
+		</div>		
+		<div class="row">
+		<div class="input-fiel col s6">
+			<input class="waves-effect waves-light btn" type="submit" value="Save">
+			<button class="waves-effect waves-light btn" onclick="document.getElementById('formperson').reset();">New</button>
+		</div>
+		</div>
 	</form>
+	</div>
 	
 	<br/>
 	<br/>
-	<a href="personslist">Person's List</a>
+	
+	<div class="row">
+		<form action="findperson" method="post" class="col s12">
+			<div class="row">
+				<div class="input-field col s12">
+					<label for="findname" class="active" >Find By Name:</label>	
+					<input name="findname" id="findname" class="validate">
+					<input class="waves-effect waves-light btn" type="submit" value="Find">
+					<a class="waves-effect waves-light btn" href="personslist">Person's List</a>
+				</div>
+			</div>
+		</form>
+	</div>
+	
 	<br/>
 	<br/>	
-	
-	<form action="findperson" method="post">
-		<label>Find By Name:</label>	
-		<input name="findname">
-		<input class="waves-effect waves-light btn" type="submit" value="Find">
-	</form>
-	
-	<br/>
-	<br/>	
-	<table>
+	<table class="striped">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Name</th>
+				<th>Surname</th>
+				<th>Age</th>
+				<th>Editing</th>
+				<th>Removing</th>
+			</tr>
+		</thead>
 		<tr th:each = "person : ${persons}">
 			<td th:text = "${person.id}"></td>
 			<td th:text = "${person.name}"></td>
