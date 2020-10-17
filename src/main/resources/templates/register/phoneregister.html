@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link type="text/css" rel="stylesheet" href="/materialize/css/materialize.css"  media="screen,projection"/>
+<link type="text/css" rel="stylesheet" href="/materialize/css/materialize.min.css"  media="screen,projection"/>
+
+<style type="text/css">
+table.striped>tbody>tr:nth-child(odd){
+	background-color: rgba(158, 158, 154, 0.5)
+}
+form input[type=submit]{
+	color: white;
+}
+
+</style>
+
+</head>
+<body>
+<h3>Spring Boot + Thymeleaf + Material Design Lite</h3> <br/>
+<br/>
+<a class="waves-effect waves-light btn" href="/personregister">Person Register</a>
+<br/>
+<h5>Phones' Register:</h5>
+
+<div th:each="p : ${personobj}">
+	<div class="row">
+		<p>Id:<span th:text="${p.id}"></span></p>
+		<p>Name:<span th:text="${p.name}"></span></p>
+		<p>Surname:<span th:text="${p.surname}"></span></p>
+		<p>Age:<span th:text="${p.age}"></span></p>
+	</div>
+</div>
+	
+<script type="text/javascript" src="/materialize/js/materialize.js"></script>	
+<script type="text/javascript" src="/materialize/js/materialize.min.js"></script>	
+</body>
+</html>
