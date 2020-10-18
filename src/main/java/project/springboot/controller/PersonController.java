@@ -13,13 +13,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import project.springboot.model.Person;
+import project.springboot.model.Telephone;
 import project.springboot.repository.PersonRepository;
+import project.springboot.repository.PhoneRepository;
 
 @Controller
 public class PersonController {
 	
 	@Autowired
 	private PersonRepository personRepository;
+	
+	@Autowired
+	private PhoneRepository phoneRepository;
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/personregister")
 	public ModelAndView begin() {
@@ -88,5 +93,18 @@ public class PersonController {
 		andView.addObject("personobj", person.get());
 		return andView;
 	}	
+	
+	@PostMapping("**/addphoneperson/{personid}")
+	public ModelAndView addPhonePerson(Telephone telephone, @PathVariable("personid") Long personid ) {
+		
+		Person person = personRepository.findById(personid).get();
+		telephone.setPerson(person);
+		
+		phoneRepository.save(telephone);
+		
+		ModelAndView andView = new ModelAndView("register/phoneregister");
+		andView.addObject("personobj", person);
+		return andView;
+	}
 
 }

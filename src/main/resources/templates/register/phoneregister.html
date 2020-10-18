@@ -27,14 +27,45 @@ form input[type=submit]{
 
 <div th:each="p : ${personobj}">
 	<div class="row">
-		<p>Id:<span th:text="${p.id}"></span></p>
-		<p>Name:<span th:text="${p.name}"></span></p>
-		<p>Surname:<span th:text="${p.surname}"></span></p>
-		<p>Age:<span th:text="${p.age}"></span></p>
+		<p>Id: <span th:text="${p.id}"></span></p>
+		<p>Name: <span th:text="${p.name}"></span></p>
+		<p>Surname: <span th:text="${p.surname}"></span></p>
+		<p>Age: <span th:text="${p.age}"></span></p>
 	</div>
+</div>
+
+<h5>Phones</h5>
+<div class="row">
+	<form th:action="@{/addphoneperson/{personid}(personid=${personobj.id})}" method="post" class="col s12">
+		<div class="row">
+			<div class="input-field col s6">
+				<label class="active" for="number">Number: </label>
+				<input id="number" name="number" class="validate">
+			</div>
+			<div class="input-field col s6">
+				<label class="active" for="type">Type: </label>
+				<input id="type" name="type" class="validate">
+			</div>	
+			
+			<input type="submit" value="Add" class="waves-effect waves-light btn">		
+		</div>
+	</form>
 </div>
 	
 <script type="text/javascript" src="/materialize/js/materialize.js"></script>	
 <script type="text/javascript" src="/materialize/js/materialize.min.js"></script>	
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
