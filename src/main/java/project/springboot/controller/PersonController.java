@@ -1,9 +1,15 @@
 package project.springboot.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,7 +42,23 @@ public class PersonController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "**/saveperson")
-	public ModelAndView save(Person person) {
+	public ModelAndView save(@Valid Person person, BindingResult bindingResult) {
+		
+		if (bindingResult.hasErrors()) {
+			ModelAndView andView = new ModelAndView("register/personregister");
+			Iterable<Person> personsIt = personRepository.findAll();
+			andView.addObject("persons", personsIt);
+			andView.addObject("personobj", person);
+			
+			List<String> msg = new ArrayList<String>();
+			for (ObjectError objectError: bindingResult.getAllErrors()) {
+				msg.add(objectError.getDefaultMessage()); //Came from the annotations
+			}
+			
+			andView.addObject("msg", msg);
+			return andView;
+		}
+		
 		personRepository.save(person);
 		
 		ModelAndView andView = new ModelAndView("register/personregister");
