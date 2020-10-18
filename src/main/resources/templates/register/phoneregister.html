@@ -51,6 +51,19 @@ form input[type=submit]{
 		</div>
 	</form>
 </div>
+
+<table class="striped">
+	<thead>
+		<tr>
+			<th>Number</th>
+			<th>Type</th>
+		</tr>
+	</thead>
+	<tr th:each = "telephone : ${phones}">
+		<td th:text = "${telephone.number}"></td>
+		<td th:text = "${telephone.type}"></td>
+	</tr>
+</table>
 	
 <script type="text/javascript" src="/materialize/js/materialize.js"></script>	
 <script type="text/javascript" src="/materialize/js/materialize.min.js"></script>	

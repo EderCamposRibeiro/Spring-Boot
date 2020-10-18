@@ -91,19 +91,21 @@ public class PersonController {
 		
 		ModelAndView andView = new ModelAndView("register/phoneregister");
 		andView.addObject("personobj", person.get());
+		andView.addObject("phones", phoneRepository.getTelephones(idperson));
 		return andView;
 	}	
 	
 	@PostMapping("**/addphoneperson/{personid}")
-	public ModelAndView addPhonePerson(Telephone telephone, @PathVariable("personid") Long personid ) {
+	public ModelAndView addPhonePerson(Telephone phone, @PathVariable("personid") Long personid ) {
 		
 		Person person = personRepository.findById(personid).get();
-		telephone.setPerson(person);
+		phone.setPerson(person);
 		
-		phoneRepository.save(telephone);
+		phoneRepository.save(phone);
 		
 		ModelAndView andView = new ModelAndView("register/phoneregister");
 		andView.addObject("personobj", person);
+		andView.addObject("phones", phoneRepository.getTelephones(personid));
 		return andView;
 	}
 
