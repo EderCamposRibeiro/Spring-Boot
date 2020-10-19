@@ -25,6 +25,12 @@ form input[type=submit]{
 <br/>
 <h5>Phones' Register:</h5>
 
+	<br/>
+	<div th:each = "m : ${msg}">
+		<span th:text = "${m}" style="color: red;"></span>
+	</div>	
+	<br/>
+
 <div th:each="p : ${personobj}">
 	<div class="row">
 		<p>Id: <span th:text="${p.id}"></span></p>
@@ -36,7 +42,8 @@ form input[type=submit]{
 
 <h5>Phones</h5>
 <div class="row">
-	<form th:action="@{/addphoneperson/{personid}(personid=${personobj.id})}" method="post" class="col s12">
+	<form th:action="@{/addphoneperson/{personid}(personid=${personobj.id})}"
+	 method="post" class="col s12" onsubmit="return validateField()? true : false">
 		<div class="row">
 			<div class="input-field col s6">
 				<label class="active" for="number">Number: </label>
@@ -69,6 +76,24 @@ form input[type=submit]{
 	
 <script type="text/javascript" src="/materialize/js/materialize.js"></script>	
 <script type="text/javascript" src="/materialize/js/materialize.min.js"></script>
+<script type="text/javascript">
+	function validateField(){
+		
+		number = document.getElementById('number').value;
+		type = document.getElementById('type').value;
+		
+		if (number === ''){
+			alert('The number should be informed!'); 
+			return false;
+		}
+		else if (type === '') {
+			alert('The type should be informed!');
+			return false;
+		}
+
+		return true;
+	}
+</script>
 	
 </body>
 </html>

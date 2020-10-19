@@ -121,11 +121,32 @@ public class PersonController {
 	public ModelAndView addPhonePerson(Telephone phone, @PathVariable("personid") Long personid ) {
 		
 		Person person = personRepository.findById(personid).get();
+		
+		if (phone != null && phone.getNumber().isEmpty() || phone.getType().isEmpty()) {
+			
+			ModelAndView andView = new ModelAndView("register/phoneregister");
+			andView.addObject("personobj", person);
+			andView.addObject("phones", phoneRepository.getTelephones(personid));
+			
+			List<String> msg = new ArrayList<String>();
+			if (phone.getNumber().isEmpty()) {
+				msg.add("The number should be informed!");
+			}
+			
+			if (phone.getType().isEmpty()) {
+				msg.add("The type should be informed");
+			}
+			
+			andView.addObject("msg", msg);
+			
+			return andView;
+		}
+		
+		ModelAndView andView = new ModelAndView("register/phoneregister");
 		phone.setPerson(person);
 		
 		phoneRepository.save(phone);
-		
-		ModelAndView andView = new ModelAndView("register/phoneregister");
+
 		andView.addObject("personobj", person);
 		andView.addObject("phones", phoneRepository.getTelephones(personid));
 		return andView;
