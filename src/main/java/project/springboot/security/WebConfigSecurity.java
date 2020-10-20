@@ -1,5 +1,6 @@
 package project.springboot.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -11,9 +12,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import project.springboot.repository.AdministratorRepository;
+
 @Configuration
 @EnableWebSecurity
 public class WebConfigSecurity extends WebSecurityConfigurerAdapter{
+	
+	@Autowired
+	private UserDetailServiceImplementation userDetailServiceImplementation;
 	
 	@Override // It configures the access request by Http.
 	protected void configure(HttpSecurity http) throws Exception {
@@ -29,10 +35,10 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter{
 	
 	@Override // Create user's authentication with database or in memory.
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication().passwordEncoder(new BCryptPasswordEncoder())
-		.withUser("eder")
-		.password("$2a$10$cFpR5DK63PIkJkRSbSDpu.Olvube7cqRWSEiFCCSzV15b4FYKj7L.")
-		.roles("ADMIN");
+		
+		auth.userDetailsService(userDetailServiceImplementation).
+		passwordEncoder(new BCryptPasswordEncoder());
+		
 	}
 	
 	@Override // Ignores specific URLs. 
