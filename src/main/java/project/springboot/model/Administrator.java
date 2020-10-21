@@ -1,11 +1,16 @@
 package project.springboot.model;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,7 +28,17 @@ public class Administrator implements UserDetails{
 	
 	private String userpassword;
 	
-	
+	@OneToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "user_roles", 
+		joinColumns = @JoinColumn(name = "administrator_id", 
+				referencedColumnName = "id",
+				table = "administrator"), // Create user's access data table
+		
+			inverseJoinColumns = @JoinColumn(name="role_id",
+								referencedColumnName = "Id",
+								table = "role")) 
+				
+	private List<Role> roles;
 
 	public Long getId() {
 		return id;
@@ -51,8 +66,7 @@ public class Administrator implements UserDetails{
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
-		return null;
+		return roles;
 	}
 
 	@Override

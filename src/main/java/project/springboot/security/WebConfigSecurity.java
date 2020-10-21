@@ -27,6 +27,7 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter{
 		.disable() // Deactivate the memory pattern configurations.
 		.authorizeRequests() // To allow access restriction. 
 		.antMatchers(HttpMethod.GET, "/").permitAll() // Any user can access the page
+		.antMatchers(HttpMethod.GET, "/personregister").hasAnyRole("ADMIN") //"ROLE_" is not necessary!
 		.anyRequest().authenticated()
 		.and().formLogin().permitAll() // Allowed to any user
 		.and().logout() // Mapping Logout's URL and invalidate authenticated user.
