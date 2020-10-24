@@ -1,11 +1,15 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Person's Register page</title>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<link type="text/css" rel="stylesheet" href="/materialize/css/materialize.css"  media="screen,projection"/>
-<link type="text/css" rel="stylesheet" href="/materialize/css/materialize.min.css"  media="screen,projection"/>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
 <style type="text/css">
 table.striped>tbody>tr:nth-child(odd){
@@ -46,7 +50,7 @@ form input[type=submit]{
 				<input name="surname" th:field="*{surname}" id="surname" class="validate">
 			</div>
 		</div>	
-		<div class="row">
+		<div class="row" sec:authorize="hasRole('ROLE_ADMIN')">
 			<div class="input-fiel col s12">	
 				<label for="age" class="active">Age:</label>
 				<input name="age" th:field="*{age}" id="age" class="validate">
@@ -104,7 +108,6 @@ form input[type=submit]{
 		</tr>	
 	</table>
 	
-<script type="text/javascript" src="/materialize/js/materialize.js"></script>	
-<script type="text/javascript" src="/materialize/js/materialize.min.js"></script>	
+
 </body>
 </html>

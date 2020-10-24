@@ -9,10 +9,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
-import project.springboot.repository.AdministratorRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -30,7 +27,10 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter{
 		.antMatchers(HttpMethod.GET, "/personregister").hasAnyRole("ADMIN") //"ROLE_" is not necessary!
 		.anyRequest().authenticated()
 		.and().formLogin().permitAll() // Allowed to any user
-		.and().logout() // Mapping Logout's URL and invalidate authenticated user.
+		.loginPage("/login") // Redirect to our login.html
+		.defaultSuccessUrl("/personregister") // Redirect to register if the login process is successful
+		.failureUrl("/login?error=true") // Redirect to Error if the login process is unsuccessful
+		.and().logout().logoutSuccessUrl("/login") // Mapping Logout's URL and invalidate authenticated user.
 		.logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
 	}
 	
