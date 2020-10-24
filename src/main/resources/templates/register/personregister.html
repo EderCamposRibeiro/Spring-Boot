@@ -5,6 +5,12 @@
 <meta charset="UTF-8">
 <title>Person's Register page</title>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Adicionando JQuery -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
@@ -50,7 +56,39 @@ form input[type=submit]{
 				<input name="surname" th:field="*{surname}" id="surname" class="validate">
 			</div>
 		</div>	
-		<div class="row" sec:authorize="hasRole('ROLE_ADMIN')">
+		<div class="row">
+			<div class="input-fiel col s6">
+				<label for="cep" class="active">Zip Code:</label>
+				<input name="cep" th:field="*{cep}" id="cep" class="validate">
+			</div>
+			<div class="input-fiel col s6">	
+				<label for="rua" class="active">Street:</label>
+				<input name="rua" th:field="*{rua}" id="rua" class="validate">
+			</div>	
+		</div>
+		
+		<div class="row">
+			<div class="input-fiel col s6">
+				<label for="bairro" class="active">Neighborhood:</label>
+				<input name="bairro" th:field="*{bairro}" id="bairro" class="validate">
+			</div>
+			<div class="input-fiel col s6">	
+				<label for="cidade" class="active">City:</label>
+				<input name="cidade" th:field="*{cidade}" id="cidade" class="validate">
+			</div>	
+		</div>
+		<div class="row">
+			<div class="input-fiel col s6">
+				<label for="uf" class="active">State:</label>
+				<input name="uf" th:field="*{uf}" id="uf" class="validate">
+			</div>
+			<div class="input-fiel col s6">	
+				<label for="ibge" class="active">Ibge:</label>
+				<input name="ibge" th:field="*{ibge}" id="ibge" class="validate">
+			</div>	
+		</div>		
+			
+		<div class="row" >
 			<div class="input-fiel col s12">	
 				<label for="age" class="active">Age:</label>
 				<input name="age" th:field="*{age}" id="age" class="validate">
@@ -107,7 +145,73 @@ form input[type=submit]{
 			<td><a th:href="@{/deleteperson/{idperson}(idperson=${person.id})}">Delete</a></td>
 		</tr>	
 	</table>
-	
+ <script>
+
+        $(document).ready(function() {
+
+            function limpa_formulário_cep() {
+            	// Clean up the values from ZipCode form.
+                $("#rua").val("");     //Street in portuguese                              
+                $("#bairro").val("");  //Neighborhood in portuguese                        
+                $("#cidade").val("");  //City in portuguese                                
+                $("#uf").val("");      //State in portuguese                               
+                $("#ibge").val("");    //Ibge Brazilian Geographic and Statistic Institute.
+            }
+            
+            //When the field cep lost the focus.
+            $("#cep").blur(function() {
+
+            	//New variable "cep" only with digits.
+                var cep = $(this).val().replace(/\D/g, '');
+
+                //Verify is the field has some informed value.
+                if (cep != "") {
+
+                	//Regular Expression in order to validate the "CEP" Zip Code.
+                    var validacep = /^[0-9]{8}$/;
+
+                    //Validate the "CEP" Zip Code format.
+                    if(validacep.test(cep)) {
+
+                    	//Fills in the fields with "..." while webservice call.
+                        $("#rua").val("...");
+                        $("#bairro").val("...");
+                        $("#cidade").val("...");
+                        $("#uf").val("...");
+                        $("#ibge").val("...");
+
+                        //Calls the webservice viacep.com.br/
+                        $.getJSON("https://viacep.com.br/ws/"+ cep +"/json/?callback=?", function(dados) {
+
+                            if (!("erro" in dados)) {
+                            	//Update the fields with the call's values.
+                                $("#rua").val(dados.logradouro);
+                                $("#bairro").val(dados.bairro);
+                                $("#cidade").val(dados.localidade);
+                                $("#uf").val(dados.uf);
+                                $("#ibge").val(dados.ibge);
+                            } //end if.
+                            else {
+                            	//The Called Zip Code is not foud.
+                                limpa_formulário_cep();
+                                alert("Zip Code not Foud!");
+                            }
+                        });
+                    } //end if.
+                    else {
+                    	//Zip Code isn't valid.
+                        limpa_formulário_cep();
+                        alert("Invalid Zip Code format!");
+                    }
+                } //end if.
+                else {
+                	//Zip Code without value, Clean form.
+                    limpa_formulário_cep();
+                }
+            });
+        });
+
+    </script>	
 
 </body>
 </html>
