@@ -44,6 +44,9 @@ public class PersonController {
 	@RequestMapping(method = RequestMethod.POST, value = "**/saveperson")
 	public ModelAndView save(@Valid Person person, BindingResult bindingResult) {
 		
+		//We need this because the Hibernate needs to confirm if the person has telephone numbers on the database.
+		person.setPhones(phoneRepository.getTelephones(person.getId()));
+		
 		if (bindingResult.hasErrors()) {
 			ModelAndView andView = new ModelAndView("register/personregister");
 			Iterable<Person> personsIt = personRepository.findAll();
