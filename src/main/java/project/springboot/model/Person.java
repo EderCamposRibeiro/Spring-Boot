@@ -48,6 +48,18 @@ public class Person implements Serializable{
 	@OneToMany(mappedBy = "person", orphanRemoval = true, cascade = CascadeType.ALL)
 	private List<Telephone> phones;
 	
+	@NotNull(message = "The Gender field cannot be null!")
+	@NotEmpty(message = "The Gender field cannot be empty!")
+	private String sex;
+	
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+	
+	public String getSex() {
+		return sex;
+	}
+	
 	public void setAge(int age) {
 		this.age = age;
 	}
