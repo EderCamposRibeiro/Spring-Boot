@@ -102,7 +102,8 @@ public class PersonController {
 	}	
 	
 	@PostMapping("**/findperson")
-	public ModelAndView find(@RequestParam("findname") String findname) {
+	public ModelAndView find(@RequestParam("findname") String findname,
+			                 @RequestParam("findsex") String findsex) {
 		ModelAndView andView = new ModelAndView("register/personregister");
 		andView.addObject("persons", personRepository.findPersonByName(findname));
 		andView.addObject("personobj", new Person());
