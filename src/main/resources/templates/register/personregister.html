@@ -61,9 +61,9 @@ form input[type=submit]{
 				<label for="sex" class="active">Gender:</label>
 				<select class="browser-default" th:field="*{sex}">
 					<option value="" disabled selected>--[Choose your option]--</option>
-					<option value="MALE"    th:text="Male"/>
-					<option value="FEMALE"  th:text="Female" />
-					<option value="NEUTRAL" th:text="Neutral" />
+					<option value="M"    th:text="Male"/>
+					<option value="F"  th:text="Female" />
+					<option value="N" th:text="Neutral" />
 				</select>
 			</div>	
 		</div>		
@@ -130,10 +130,10 @@ form input[type=submit]{
 				<div class="input-field col s6">
 					<label for="findsex" class="active" >Find By Gender:</label>	
 					<select class="browser-default" name="findsex" id="findsex">
-						<option value="" disabled selected>--[Choose your option]--</option>
-						<option value="MALE"    th:text="Male"/>
-						<option value="FEMALE"  th:text="Female" />
-						<option value="NEUTRAL" th:text="Neutral" />
+						<option value="" >--[All]--</option>
+						<option value="M"    th:text="Male"/>
+						<option value="F"  th:text="Female" />
+						<option value="N" th:text="Neutral" />
 					</select>
 				</div>					
 				<div class="input-field col s12">

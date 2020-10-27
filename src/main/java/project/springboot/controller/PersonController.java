@@ -104,8 +104,17 @@ public class PersonController {
 	@PostMapping("**/findperson")
 	public ModelAndView find(@RequestParam("findname") String findname,
 			                 @RequestParam("findsex") String findsex) {
+		
+		List<Person> persons = new ArrayList<Person>();
+		
+		if (findsex != null && !findsex.isEmpty()) {
+			persons = personRepository.findPersonByNameAndSex(findname, findsex);
+		} else {
+			persons = personRepository.findPersonByName(findname);
+		}
+		
 		ModelAndView andView = new ModelAndView("register/personregister");
-		andView.addObject("persons", personRepository.findPersonByName(findname));
+		andView.addObject("persons", persons);
 		andView.addObject("personobj", new Person());
 		return andView;
 	}
