@@ -112,10 +112,18 @@ public class PersonController {
 		
 		List<Person> persons = new ArrayList<Person>();
 		
-		if (findsex != null && !findsex.isEmpty()) {
+		if (findsex != null && !findsex.isEmpty()
+				&& findname != null && !findname.isEmpty()) {
 			persons = personRepository.findPersonByNameAndSex(findname, findsex);
+		} else if (findname != null && !findname.isEmpty()) {
+			persons = personRepository.findPersonByName(findname);	
+		}else if (findsex != null && !findsex.isEmpty()){
+			persons = personRepository.findPersonBySex(findsex);
 		} else {
-			persons = personRepository.findPersonByName(findname);
+			Iterable<Person> iterable = personRepository.findAll();
+			for (Person person : iterable) {
+				persons.add(person);
+			}
 		}
 		
 		ModelAndView andView = new ModelAndView("register/personregister");
@@ -128,10 +136,46 @@ public class PersonController {
 	public void printPdf(@RequestParam("findname") String findname,
 			    @RequestParam("findsex") String findsex,
 			    HttpServletRequest request,
-			    HttpServletResponse response) {
+			    HttpServletResponse response) throws Exception{
 		
-		System.out.println("test!!!!!!!!");
+		List<Person> persons = new ArrayList<Person>();
 		
+		if (findsex != null && !findsex.isEmpty()
+				&& findname != null && !findname.isEmpty()) { /*Find by name and gender*/
+			
+			persons = personRepository.findPersonByNameAndSex(findname, findsex);
+			
+		} else if (findname != null && !findname.isEmpty()) { /*Find only by name*/
+			
+			persons = personRepository.findPersonByName(findname);
+			 
+		}else if (findsex != null && !findsex.isEmpty()) { /*Find only by gender*/
+		
+		persons = personRepository.findPersonBySex(findsex);
+		 
+		}else { /*Find All*/
+			Iterable<Person> iterable = personRepository.findAll();
+			for (Person person : iterable) {
+				persons.add(person);
+			}
+		}
+		
+		/*Calling the service that make the report generation*/
+		byte[] pdf = reportUtil.createReport(persons, "person", request.getServletContext());
+		
+		/*Response size*/
+		response.setContentLength(pdf.length);
+		
+		/*Defining on the response, the type of the file*/
+		response.setContentType("application/octet-stream");
+		
+		/*Defining the response header*/
+		String headerKey = "Content-Disposition";
+		String headerValue = String.format("attachment; filename=\"%s\"", "report.pdf");
+		response.setHeader(headerKey, headerValue);
+		
+		/*Ending the browser's response*/
+		response.getOutputStream().write(pdf);
 	}
 	
 	@GetMapping("/phones/{idperson}")
