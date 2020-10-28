@@ -121,7 +121,7 @@ form input[type=submit]{
 	<fieldset>
 	<legend>Search Field:</legend>
 	<div class="row">
-		<form action="findperson" method="post" class="col s12">
+		<form action="findperson" method="post" class="col s12" id="findperson">
 			<div class="row">
 				<div class="input-field col s6">
 					<label for="findname" class="active" >Find By Name:</label>	
@@ -137,6 +137,8 @@ form input[type=submit]{
 					</select>
 				</div>					
 				<div class="input-field col s12">
+					<input class="waves-effect waves-light btn" type="submit" 
+						value="Generate PDF" onclick="document.getElementById('findperson').method = 'get'">
 					<input class="waves-effect waves-light btn" type="submit" value="Find">
 					<a class="waves-effect waves-light btn" href="personslist">Person's List</a>
 				</div>

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,9 @@ public class PersonController {
 	
 	@Autowired
 	private PhoneRepository phoneRepository;
+	
+	@Autowired
+	private ReportUtil reportUtil; 
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/personregister")
 	public ModelAndView begin() {
@@ -117,6 +122,16 @@ public class PersonController {
 		andView.addObject("persons", persons);
 		andView.addObject("personobj", new Person());
 		return andView;
+	}
+	
+	@GetMapping("**/findperson")
+	public void printPdf(@RequestParam("findname") String findname,
+			    @RequestParam("findsex") String findsex,
+			    HttpServletRequest request,
+			    HttpServletResponse response) {
+		
+		System.out.println("test!!!!!!!!");
+		
 	}
 	
 	@GetMapping("/phones/{idperson}")
