@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
@@ -51,6 +52,17 @@ public class Person implements Serializable{
 	@NotNull(message = "The Gender field cannot be null!")
 	@NotEmpty(message = "The Gender field cannot be empty!")
 	private String sex;
+	
+	@ManyToOne
+	private Profession profession;
+	
+	public void setProfession(Profession profession) {
+		this.profession = profession;
+	}
+	
+	public Profession getProfession() {
+		return profession;
+	}
 	
 	public void setSex(String sex) {
 		this.sex = sex;

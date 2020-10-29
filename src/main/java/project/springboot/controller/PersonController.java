@@ -24,6 +24,7 @@ import project.springboot.model.Person;
 import project.springboot.model.Telephone;
 import project.springboot.repository.PersonRepository;
 import project.springboot.repository.PhoneRepository;
+import project.springboot.repository.ProfessionRepository;
 
 @Controller
 public class PersonController {
@@ -37,12 +38,16 @@ public class PersonController {
 	@Autowired
 	private ReportUtil reportUtil; 
 	
+	@Autowired
+	private ProfessionRepository professionRepository;
+	
 	@RequestMapping(method = RequestMethod.GET, value = "/personregister")
 	public ModelAndView begin() {
 		ModelAndView andView = new ModelAndView("register/personregister");
 		andView.addObject("personobj", new Person());
 		Iterable<Person> personsIt = personRepository.findAll();
 		andView.addObject("persons", personsIt);
+		andView.addObject("professions", professionRepository.findAll());
 		return andView;
 	}
 	
@@ -64,6 +69,7 @@ public class PersonController {
 			}
 			
 			andView.addObject("msg", msg);
+			andView.addObject("professions", professionRepository.findAll());
 			return andView;
 		}
 		
@@ -92,6 +98,7 @@ public class PersonController {
 		
 		ModelAndView andView = new ModelAndView("register/personregister");
 		andView.addObject("personobj", person.get());
+		andView.addObject("professions", professionRepository.findAll());		
 		return andView;
 	}
 	
