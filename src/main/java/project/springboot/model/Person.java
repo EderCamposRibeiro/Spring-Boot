@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -55,6 +57,17 @@ public class Person implements Serializable{
 	
 	@ManyToOne
 	private Profession profession;
+	
+	@Enumerated(EnumType.STRING)
+	private Position position;
+	
+	public void setPosition(Position position) {
+		this.position = position;
+	}
+	
+	public Position getPosition() {
+		return position;
+	}
 	
 	public void setProfession(Profession profession) {
 		this.profession = profession;
