@@ -26,6 +26,10 @@ table.striped>tbody>tr:nth-child(odd){
 form input[type=submit]{
 	color: white;
 }
+/* Hides the input 
+input[type='file'] {
+  display: none
+}*/
 </style>
 
 </head>
@@ -64,9 +68,9 @@ form input[type=submit]{
 			</div>			
 		</div>		
 		<div class="row">
-			<div class="input-fiel col s12">
-				<label for="file" class="active">Resume:</label>
-				<input type="file" id="file" name="file" class="validate" title="Choose the file" >
+			<div class="input-fiel col s12" >
+				<label for="file" class="active">Insert the Resume:</label>
+				<input type="file" id="file" name="file" class="file-field input-field" title="Choose the file" >
 			</div>
 		</div>
 		<div class="row">	
@@ -181,7 +185,7 @@ form input[type=submit]{
 				<th>Id</th>
 				<th>Name</th>
 				<th>Surname</th>
-				<th>Age</th>
+				<th>Resume</th>
 				<th>Editing</th>
 				<th>Removing</th>
 			</tr>
@@ -194,7 +198,7 @@ form input[type=submit]{
 				</a>
 			</td>
 			<td th:text = "${person.surname}"></td>
-			<td th:text = "${person.age}"></td>
+			<td><a th:href="@{/downloadresume/{idperson}(idperson=${person.id})}">Download</a></td>
 			<td><a th:href="@{/editperson/{idperson}(idperson=${person.id})}">Edit</a></td>
 			<td><a th:href="@{/deleteperson/{idperson}(idperson=${person.id})}">Delete</a></td>
 		</tr>	

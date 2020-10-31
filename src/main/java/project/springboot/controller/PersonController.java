@@ -158,6 +158,33 @@ public class PersonController {
 		return andView;
 	}
 	
+	@GetMapping("**/downloadresume/{idperson}")
+	public void downloadresume(@PathVariable("idperson") Long idperson,
+			HttpServletResponse response) throws IOException {             //Download Methods are always without return(void)
+		
+		/*Find the Person object on database*/
+		Person person = personRepository.findById(idperson).get();
+		
+		if (person.getResume() != null) {
+			
+			/*To set the response size*/
+			response.setContentLength(person.getResume().length);
+			
+			/*To set the response type or could be generic (application/octet-stream)*/
+			response.setContentType(person.getTypefileresume());
+			//response.setContentType("application/octet-stream"); //Generic
+			
+			/*Define the response header*/
+			String headerKey = "Content-Disposition";
+			String headerValue = String.format("attachement; filename=\"%s\"", person.getNamefileresume());
+			response.setHeader(headerKey, headerValue);
+			
+			/*Ending the response passing the file*/
+			response.getOutputStream().write(person.getResume());
+			
+		}
+	}
+	
 	@GetMapping("**/findperson")
 	public void printPdf(@RequestParam("findname") String findname,
 			    @RequestParam("findsex") String findsex,
