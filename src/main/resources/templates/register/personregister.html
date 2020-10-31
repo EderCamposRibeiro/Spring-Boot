@@ -198,7 +198,11 @@ input[type='file'] {
 				</a>
 			</td>
 			<td th:text = "${person.surname}"></td>
-			<td><a th:href="@{/downloadresume/{idperson}(idperson=${person.id})}">Download</a></td>
+			<td>
+				<a th:if="${person.resume != null}"
+				   th:href="@{/downloadresume/{idperson}(idperson=${person.id})}">Download</a>
+				<a th:if="${person.resume == null}" style="color: black;">Not uploaded yet!</a>	
+			</td>
 			<td><a th:href="@{/editperson/{idperson}(idperson=${person.id})}">Edit</a></td>
 			<td><a th:href="@{/deleteperson/{idperson}(idperson=${person.id})}">Delete</a></td>
 		</tr>	
