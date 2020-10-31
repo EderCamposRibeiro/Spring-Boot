@@ -11,6 +11,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -69,6 +70,17 @@ public class Person implements Serializable{
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
 	private Date birthdate;
+	
+	@Lob
+	private byte[] resume;
+	
+	public void setResume(byte[] resume) {
+		this.resume = resume;
+	}
+	
+	public byte[] getResume() {
+		return resume;
+	}
 	
 	public void setBirthdate(Date birthdate) {
 		this.birthdate = birthdate;

@@ -1,5 +1,6 @@
 package project.springboot.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import project.springboot.model.Person;
@@ -51,8 +53,9 @@ public class PersonController {
 		return andView;
 	}
 	
-	@RequestMapping(method = RequestMethod.POST, value = "**/saveperson")
-	public ModelAndView save(@Valid Person person, BindingResult bindingResult) {
+	@RequestMapping(method = RequestMethod.POST, value = "**/saveperson",
+			consumes = {"multipart/form-data"}) // The same type from the form in order to upload the file
+	public ModelAndView save(@Valid Person person, BindingResult bindingResult, final MultipartFile file) throws IOException {
 		
 		//We need this because the Hibernate needs to confirm if the person has telephone numbers on the database.
 		person.setPhones(phoneRepository.getTelephones(person.getId()));
@@ -71,6 +74,15 @@ public class PersonController {
 			andView.addObject("msg", msg);
 			andView.addObject("professions", professionRepository.findAll());
 			return andView;
+		}
+		
+		if (file.getSize() > 0) { // Insert a new Resume
+			person.setResume(file.getBytes());
+		} else {
+			if (person.getId() != null && person.getId() > 0) { //Editing
+				byte[] resumetemp = personRepository.findById(person.getId()).get().getResume();
+				person.setResume(resumetemp);
+			}
 		}
 		
 		personRepository.save(person);
