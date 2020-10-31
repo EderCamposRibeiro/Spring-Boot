@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
@@ -45,10 +47,10 @@ public class PersonController {
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/personregister")
 	public ModelAndView begin() {
+		
 		ModelAndView andView = new ModelAndView("register/personregister");
 		andView.addObject("personobj", new Person());
-		Iterable<Person> personsIt = personRepository.findAll();
-		andView.addObject("persons", personsIt);
+		andView.addObject("persons", personRepository.findAll(PageRequest.of(0, 5, Sort.by("name"))));
 		andView.addObject("professions", professionRepository.findAll());
 		return andView;
 	}
@@ -63,8 +65,7 @@ public class PersonController {
 		
 		if (bindingResult.hasErrors()) {
 			ModelAndView andView = new ModelAndView("register/personregister");
-			Iterable<Person> personsIt = personRepository.findAll();
-			andView.addObject("persons", personsIt);
+			andView.addObject("persons", personRepository.findAll(PageRequest.of(0, 5, Sort.by("name"))));
 			andView.addObject("personobj", person);
 			
 			List<String> msg = new ArrayList<String>();
@@ -95,8 +96,7 @@ public class PersonController {
 		personRepository.save(person);
 		
 		ModelAndView andView = new ModelAndView("register/personregister");
-		Iterable<Person> personsIt = personRepository.findAll();
-		andView.addObject("persons", personsIt);
+		andView.addObject("persons", personRepository.findAll(PageRequest.of(0, 5, Sort.by("name"))));
 		andView.addObject("personobj", new Person());
 		return andView;
 	}
@@ -104,8 +104,7 @@ public class PersonController {
 	@RequestMapping(method = RequestMethod.GET, value = "/personslist")
 	public ModelAndView persons() {
 		ModelAndView andView = new ModelAndView("register/personregister");
-		Iterable<Person> personsIt = personRepository.findAll();
-		andView.addObject("persons", personsIt);
+		andView.addObject("persons", personRepository.findAll(PageRequest.of(0, 5, Sort.by("name"))));
 		andView.addObject("personobj", new Person());
 		return andView;
 	}
@@ -127,7 +126,7 @@ public class PersonController {
 		personRepository.deleteById(idperson);
 		
 		ModelAndView andView = new ModelAndView("register/personregister");
-		andView.addObject("persons", personRepository.findAll());
+		andView.addObject("persons", personRepository.findAll(PageRequest.of(0, 5, Sort.by("name"))));
 		andView.addObject("personobj", new Person());
 		return andView;
 	}	
