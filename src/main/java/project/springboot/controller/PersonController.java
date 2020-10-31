@@ -57,6 +57,7 @@ public class PersonController {
 			consumes = {"multipart/form-data"}) // The same type from the form in order to upload the file
 	public ModelAndView save(@Valid Person person, BindingResult bindingResult, final MultipartFile file) throws IOException {
 		
+		
 		//We need this because the Hibernate needs to confirm if the person has telephone numbers on the database.
 		person.setPhones(phoneRepository.getTelephones(person.getId()));
 		
@@ -78,10 +79,16 @@ public class PersonController {
 		
 		if (file.getSize() > 0) { // Insert a new Resume
 			person.setResume(file.getBytes());
+			person.setTypefileresume(file.getContentType());
+			person.setNamefileresume(file.getOriginalFilename());
 		} else {
 			if (person.getId() != null && person.getId() > 0) { //Editing
-				byte[] resumetemp = personRepository.findById(person.getId()).get().getResume();
-				person.setResume(resumetemp);
+				
+				Person persontemp = personRepository.findById(person.getId()).get(); //Find person on database to set the same resume
+				
+				person.setResume(persontemp.getResume()); //Insert the same resume 
+				person.setTypefileresume(persontemp.getTypefileresume());
+				person.setNamefileresume(persontemp.getNamefileresume());
 			}
 		}
 		

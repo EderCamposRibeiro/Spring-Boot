@@ -74,6 +74,26 @@ public class Person implements Serializable{
 	@Lob
 	private byte[] resume;
 	
+	private String namefileresume;
+	
+	private String typefileresume;
+	
+	public String getNamefileresume() {
+		return namefileresume;
+	}
+	
+	public void setNamefileresume(String namefileresume) {
+		this.namefileresume = namefileresume;
+	}
+	
+	public String getTypefileresume() {
+		return typefileresume;
+	}
+	
+	public void setTypefileresume(String typefileresume) {
+		this.typefileresume = typefileresume;
+	}
+	
 	public void setResume(byte[] resume) {
 		this.resume = resume;
 	}
