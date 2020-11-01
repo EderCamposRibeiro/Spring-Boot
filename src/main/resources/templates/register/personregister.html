@@ -167,11 +167,11 @@ table th {
 			<div class="row">
 				<div class="input-field col s6">
 					<label for="findname" class="active" >Find By Name:</label>	
-					<input name="findname" id="findname" class="validate">
+					<input name="findname" id="findname" class="validate" th:value=${findname}>
 				</div>
 				<div class="input-field col s6">
 					<label for="findsex" class="active" >Find By Gender:</label>	
-					<select class="browser-default" name="findsex" id="findsex">
+					<select class="browser-default" name="findsex" id="findsex" th:value=${findsex}>
 						<option value="" >--[All]--</option>
 						<option value="M"    th:text="Male"/>
 						<option value="F"  th:text="Female" />
@@ -225,15 +225,15 @@ table th {
 	<div class="row" style="margin-top: 30px; text-align: center;">
 	
 		<span th:if="${persons.hasPrevious()}">
-			<a th:href="@{/personpagination(page=${persons.number-1}, size=${persons.size})}">Previous</a>
+			<a th:href="@{/personpagination(page=${persons.number-1}, size=${persons.size}, findname=${findname}, findsex=${findsex})}">Previous</a>
 		</span>
 		
 		<th:block th:each="i: ${#numbers.sequence(0, persons.totalPages - 1)}"> 
-			<a th:href="@{/personpagination(page=${i}, size=${persons.size})}">[[ ${i} + 1 ]]</a>
+			<a th:href="@{/personpagination(page=${i}, size=${persons.size}, findname=${findname}, findsex=${findsex})}">[[ ${i} + 1 ]]</a>
 		</th:block>
 		
 		<span th:if="${persons.hasNext()}">
-			<a th:href="@{/personpagination(page=${persons.number+1}, size=${persons.size})}">Next</a>
+			<a th:href="@{/personpagination(page=${persons.number+1}, size=${persons.size}, findname=${findname}, findsex=${findsex})}">Next</a>
 		</span>		
 	</div>
 </fieldset>	

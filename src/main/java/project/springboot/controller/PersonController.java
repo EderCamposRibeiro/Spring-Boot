@@ -136,27 +136,27 @@ public class PersonController {
 	
 	@PostMapping("**/findperson")
 	public ModelAndView find(@RequestParam("findname") String findname,
-			                 @RequestParam("findsex") String findsex) {
+			                 @RequestParam("findsex") String findsex,
+			                 @PageableDefault(size = 5, sort = {"name"}) Pageable pageable) {
 		
-		List<Person> persons = new ArrayList<Person>();
+		Page<Person> persons = null;
 		
 		if (findsex != null && !findsex.isEmpty()
 				&& findname != null && !findname.isEmpty()) {
-			persons = personRepository.findPersonByNameAndSex(findname, findsex);
-		} else if (findname != null && !findname.isEmpty()) {
-			persons = personRepository.findPersonByName(findname);	
+			persons = personRepository.findPersonByNameAndSexPage(findname, findsex, pageable);
+		}else if (findname != null && !findname.isEmpty()) {
+			persons = personRepository.findPersonByNamePage(findname, pageable);	
 		}else if (findsex != null && !findsex.isEmpty()){
-			persons = personRepository.findPersonBySex(findsex);
-		} else {
-			Iterable<Person> iterable = personRepository.findAll();
-			for (Person person : iterable) {
-				persons.add(person);
-			}
+			persons = personRepository.findPersonBySexPage(findsex, pageable);
+		}else {
+			persons = personRepository.findPersonByNamePage(findname, pageable);
 		}
 		
 		ModelAndView andView = new ModelAndView("register/personregister");
 		andView.addObject("persons", persons);
 		andView.addObject("personobj", new Person());
+		andView.addObject("findname", findname);
+		andView.addObject("findsex", findsex);
 		return andView;
 	}
 	
@@ -294,11 +294,12 @@ public class PersonController {
 	
 	@GetMapping("/personpagination")
 	public ModelAndView callPersonsByPagination(@PageableDefault(size = 5) Pageable pageable,
-			ModelAndView model) {
+			ModelAndView model, @RequestParam("findname") String findname) {
 		
-		Page<Person> pagePerson = personRepository.findAll(pageable);
+		Page<Person> pagePerson = personRepository.findPersonByNamePage(findname, pageable);
 		model.addObject("persons", pagePerson);
 		model.addObject("personobj", new Person());
+		model.addObject("findname", findname);
 		model.setViewName("register/personregister");
 		
 		return model;
