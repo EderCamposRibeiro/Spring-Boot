@@ -292,7 +292,7 @@ public class PersonController {
 		return andView;
 	}
 	
-	@GetMapping("/personpaginatio")
+	@GetMapping("/personpagination")
 	public ModelAndView callPersonsByPagination(@PageableDefault(size = 5) Pageable pageable,
 			ModelAndView model) {
 		
