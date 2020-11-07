@@ -119,6 +119,7 @@ public class PersonController {
 		
 		ModelAndView andView = new ModelAndView("register/personregister");
 		andView.addObject("personobj", person.get());
+		andView.addObject("persons", personRepository.findAll(PageRequest.of(0, 5, Sort.by("name"))));
 		andView.addObject("professions", professionRepository.findAll());		
 		return andView;
 	}
