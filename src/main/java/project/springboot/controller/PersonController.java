@@ -122,7 +122,7 @@ public class PersonController {
 		andView.addObject("persons", personRepository.findAll(PageRequest.of(0, 5, Sort.by("name"))));
 		andView.addObject("professions", professionRepository.findAll());		
 		return andView;
-		//Somente para aparecer alguma mudança
+		//Somente para mudar
 	}
 	
 	@GetMapping("/deleteperson/{idperson}")
